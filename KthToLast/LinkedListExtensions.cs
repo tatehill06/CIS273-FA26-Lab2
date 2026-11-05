@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 namespace KthToLast
 {
 	public static class LinkedListExtensions
@@ -31,7 +32,19 @@ namespace KthToLast
 		/// </exception>
 		public static T KthToLastSinglyLinked<T>(this LinkedList<T> linkedList, int k)
 		{
-			return default;
+			var current = linkedList.First;
+			if (k >= linkedList.Count || k < 0)
+			{
+				throw new IndexOutOfRangeException();
+			}
+
+			int position = linkedList.Count - 1 - k;
+
+			for(int i = 0; i < position; i++)
+			{
+				current = current.Next;
+			}
+			return current.Value;
 		}
 
         /// <summary>
@@ -62,7 +75,18 @@ namespace KthToLast
         /// </exception>
         public static T KthToLastDoublyLinked<T>(this LinkedList<T> linkedList, int k)
         {
-			return default;
+			//linkedList.Last
+			var current = linkedList.Last;
+			if (k >= linkedList.Count || k < 0)
+			{
+				throw new IndexOutOfRangeException();
+			}
+			while(k > 0)
+			{
+				current = current.Previous;
+				k--;
+			}
+			return current.Value;
         }
     }
 }

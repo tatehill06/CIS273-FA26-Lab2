@@ -1,4 +1,6 @@
-﻿namespace PostfixCalculator;
+﻿using System.IO.Pipelines;
+
+namespace PostfixCalculator;
 
 
 public class Program
@@ -66,6 +68,49 @@ public class Program
     /// <returns>The value of the expression, or null if it cannot be evaluated.</returns>
     public static double? Evaluate(string s)
     {
+        Stack<double> stack = new Stack<double>();
+
+        foreach(var character in s.Split((char[])null, StringSplitOptions.RemoveEmptyEntries)) //google
+        {
+            if (character == "+" || character == "-" || character == "*" || character == "/" )
+            {
+                if (stack.Count < 2)
+                {
+                    return null;
+                }
+
+                var val1 = stack.Pop();
+                var val2 = stack.Pop();
+                
+                if(character == "+")
+                {
+                    stack.Push(val2 + val1);
+                } 
+                if(character == "-")
+                {
+                    stack.Push(val2 - val1);
+                } 
+                if(character == "*")
+                {
+                    stack.Push(val2 * val1);
+                } 
+                if(character == "/")
+                {
+                    stack.Push(val2 / val1);
+                } 
+            }
+
+            else
+            {
+                stack.Push(double.Parse(character));
+            }
+            
+        }
+        if (stack.Count == 1)
+        {
+            return stack.Pop();
+        }
+
         return null;
     }
 }

@@ -4,6 +4,7 @@ public class Program
 {
     static void Main(string[] args)
     {
+        IsBalanced("{ int a = new int[ ] ( ( ) ) }");
     }
 
     /// <summary>
@@ -26,8 +27,47 @@ public class Program
     /// <returns>true if the parentheses in <paramref name="s"/> are balanced; otherwise, false.</returns>
     public static bool IsBalanced(string s)
     {
-        
-        return false;
+        Stack<char> stack = new Stack<char>();
+
+        //string[] tokens = s.Split();
+
+        foreach(var character in s )
+        {
+            //Console.WriteLine(character);
+
+            if(character == '{' || character == '(' || character == '[' || character == '<')
+            {
+                // push char to stack
+                stack.Push(character);
+            }
+
+            if(character == '}' || character == ')' || character == ']' || character == '>')
+            {
+                
+                if( stack.Count == 0)
+                {
+                    return false;
+                }
+                // check if top of stack matches
+                char mostRecentSymbol = stack.Pop();
+
+                if( !Matches(mostRecentSymbol, character))
+                {
+                    return false;
+                }
+
+            }
+        }
+
+        return stack.Count == 0;
+            
+    }
+    public static bool Matches(char open, char close)
+    {
+        return (open == '{' && close == '}') ||
+           (open == '(' && close == ')') ||
+           (open == '[' && close == ']') ||
+           (open == '<' && close == '>');
     }
 }
 

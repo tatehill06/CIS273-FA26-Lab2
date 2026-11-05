@@ -1,4 +1,6 @@
-﻿namespace ReverseFirstK;
+﻿using System.Collections;
+
+namespace ReverseFirstK;
 
 public class Program
 {
@@ -20,15 +22,46 @@ public class Program
           // if queue is null, throw an ArgumentNullException
           // if k < 0, throw an ArgumentException
 
+          if(queue == null)
+          {
+               throw new ArgumentNullException();
+          }
+          if(k < 0)
+          {
+               throw new ArgumentException();
+          }
+          if(k > queue.Count)
+          {
+               k = queue.Count();
+          }
 
           // 1) dequeue first k elements and push them on a stack
+          
+          Stack<T> stack = new Stack<T>();
+
+          for(int i = 0; i < k; i++)
+			{
+                    T value = queue.Dequeue();
+                    stack.Push(value);
+			}
 
           // 2) pop elements from stack and enqueue on queue 
+          
+          while(stack.Count > 0)
+          {
+               T valueStack = stack.Pop();
+               queue.Enqueue(valueStack);
+          }
 
           // 3)  dequeue and enqueue q.length - k times
+          
+          int remaining = queue.Count - k;
 
-
-
+          for(int i = 0; i < remaining; i++)
+          {
+               T valueDequeue = queue.Dequeue();
+               queue.Enqueue(valueDequeue);
+          }
      }
 }
 

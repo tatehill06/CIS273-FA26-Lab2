@@ -17,6 +17,8 @@ public class Program
         linkedList.AddLast(21);
         linkedList.AddLast(34);
 
+        linkedList.KthToLastSinglyLinked(3);
+
         Console.WriteLine( linkedList.KthToLastDoublyLinked(4) );
 
     }
